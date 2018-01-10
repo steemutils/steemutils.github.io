@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+	
+	<head>
+
+		<title>SteemUtils</title>
+
+		<style>
+			body {
+
+				margin: 0.5em 1em 0em 1em;
+			}
+		</style>
+
+		<script src="./jquery-3.2.1.min.js"></script>
+		<script type="text/javascript">
+			
+			function onLoad() {}
+
+			function convert() {
+				var output = $("#input").val();
+				for (var i = 0; i < output.length; i++) {
+					output = output.replace(/\[b]/i, "**");
+					output = output.replace(/\[\/b]/i, "**");
+					output = output.replace(/\[i]/i, "*");
+					output = output.replace(/\[\/i]/i, "*");
+					output = output.replace(/\[code]/i, "`");
+					output = output.replace(/\[\/code]/i, "`");
+					output = output.replace(/\[list]/i, "");
+					output = output.replace(/\[\/list]/i, "");
+					output = output.replace(/\[\*]/i, "*");
+
+				}
+				$("#output").val(output);
+			}
+
+		</script>
+
+	</head>
+
+	<body onload="onLoad();">
+
+		<a href="about.html" onclick="return false;">About</a>
+
+		<textarea id="input" oninput="convert()" rows="10" style="width: 100%;" placeholder="BBCode"></textarea>
+		
+		<textarea id="output" readonly="true" rows="10" style="width: 100%;" placeholder="Output"></textarea>
+
+		<br /><br /><br />
+		<p>BBCode this doesn't support yet:<br />-> Other types of list<br />-> Links with text which isn't the URL</p>
+		<p>BBCode this cannot support:<br />-> Different text colours, sizes and allignments.<br />-> Underlining<br />-> Attatchments<br />-> Email links (use <code>mailto:a@b.c</code>)</p>
+
+	</body>
+
+</html>
