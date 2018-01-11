@@ -43,12 +43,38 @@
 				padding-top: 4em;
 				margin: 0 1em 0 1em;
 			}
+
+			div#converter {
+				padding-top: 4em;
+				margin: 0 1em 0 1em;
+			}
+
+			div#converter td p {
+				text-align: center;
+				margin: 0;
+				padding: 0;
+			}
+
+			div#converter a {
+				text-decoration: none;
+				color: #fff;
+				background-color: #ffb6c1;
+				border-radius: 3px;
+				-moz-border-radius: 3px;
+				padding: 1px 2px 1px 2px;
+			}
 		</style>
 
 		<script src="./jquery-3.2.1.min.js"></script>
 		<script type="text/javascript">
+
+			var steemInUSD = 0;
+			var steemInBTC = 0;
 			
-			function onLoad() {}
+			function onLoad() {
+				showBbtomd();
+				updateValues();updateValues();
+			}
 
 			function convert() {
 				var output = $("#input").val();
@@ -67,6 +93,77 @@
 				$("#output").val(output);
 			}
 
+			function updateValues() {
+
+				var xmlHttp = new XMLHttpRequest();
+			    xmlHttp.open("GET", "https://api.coinmarketcap.com/v1/ticker/steem/?convert=USD", true);
+			    xmlHttp.onreadystatechange = function() {
+			    	if (this.readyState == 4 && this.status == 200) {
+			    		steemInUSD = JSON.parse(xmlHttp.response)[0]["price_usd"];
+			    		steemInBTC = JSON.parse(xmlHttp.response)[0]["price_btc"];
+			    	}
+				}
+			    xmlHttp.send(null);
+
+			}
+
+			function updateFromSteem() {
+				updateValues();
+
+				steem = $("#steem").val();
+
+				if (steem != null) {
+					$("#usd").val(steemInUSD * steem);
+					$("#btc").val(steemInBTC * steem);
+				} else {
+					$("#usd").val(0);
+					$("#btc").val(0);
+				}
+			}
+
+			function updateFromUSD() {
+				updateValues();
+
+				usd = $("#usd").val();
+
+				if (steem != null) {
+					$("#steem").val(usd / steemInUSD);
+					$("#btc").val(steemInBTC * (usd / steemInUSD));
+				} else {
+					$("#usd").val(0);
+					$("#btc").val(0);
+				}
+			}
+
+			function updateFromBTC() {
+				updateValues();
+
+				btc = $("#btc").val();
+
+				if (steem != null) {
+					$("#steem").val(btc / steemInBTC);
+					$("#usd").val(steemInUSD * (btc / steemInBTC));
+				} else {
+					$("#steem").val(0);
+					$("#usde").val(0);
+				}
+			}
+
+			function hideAll() {
+				$("#bbtomd").hide();
+				$("#converter").hide();
+			}
+
+			function showBbtomd() {
+				hideAll();
+				$("#bbtomd").show();
+			}
+
+			function showConverter() {
+				hideAll();
+				$("#converter").show();
+			}
+
 		</script>
 
 	</head>
@@ -80,7 +177,8 @@
 			</div>
 
 			<div id="bar2">
-				<a href="#" onclick="return false;"><b>bbcode_to_markdown</b></a>
+				<a href="#" onclick="showBbtomd();return false;"><b>bbcode_to_markdown</b></a>
+				<a href="#" onclick="showConverter();return false;"><b>currency_converter</b></a>
 			</div>
 		</div>
 
@@ -93,6 +191,25 @@
 			<br /><br /><br />
 			<p>BBCode this doesn't support yet:<br />-> Other types of list<br />-> Images<br />-> Links with text which isn't the URL</p>
 			<p>BBCode this cannot support:<br />-> Different text colours, sizes and allignments.<br />-> Underlining<br />-> Attatchments<br />-> Email links</p>
+		</div>
+
+		<div id="converter">
+			<table align="center">
+				<tr>
+					<td><p>steem</p></td>
+					<td><p>usd</p></td>
+					<td><p>btc</p></td>
+				</tr>
+				<tr>
+					<td><input type="text" oninput="updateFromSteem();" placeholder="Steem" id="steem"></td>
+
+					<td><input type="text" oninput="updateFromUSD();" placeholder="USD" id="usd"></td>
+
+					<td><input type="text" oninput="updateFromBTC();" placeholder="BTC" id="btc"></td>
+				</tr>
+			</table>
+
+			<p style="text-align: center;">This is only rough, all values to <a href="https://coinmarketcap.com" target="_BLANK">coinmarketcap.com</a></p>
 		</div>
 
 	</body>
