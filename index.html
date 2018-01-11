@@ -3,12 +3,44 @@
 	
 	<head>
 
-		<title>SteemUtils</title>
+		<title>steemutils.home();</title>
 
 		<style>
 			body {
+				margin: 0;
+			}
 
-				margin: 0.5em 1em 0em 1em;
+			div#bars {
+				width: 100%;
+				position: fixed;
+			}
+
+			div#bar1 {
+				width: 100%;
+				background-color: #ffb6c1;
+				padding: 0.25em 0em 0.25em 1em;
+			}
+
+			div#bar1 a {
+				text-decoration: none;
+				color: #fff;
+			}
+
+			div#bar2 {
+				width: 100%;
+				background-color: #EFE2E2;
+				padding: 0.25em 1em 0.25em 1em;
+				margin-bottom: 0.5em;
+			}
+
+			div#bar2 a {
+				text-decoration: none;
+				color: #414141;
+			}
+
+			div#bbtomd {
+				padding-top: 4em;
+				margin: 0 1em 0 1em;
 			}
 		</style>
 
@@ -39,16 +71,28 @@
 	</head>
 
 	<body onload="onLoad();">
+		<div id="bars">
+			<div id="bar1">
+				<a href="index.html"><b>home</b></a>
+				<a href="about.html"><b>about</b></a>
+				<a href="https://github.com/steemutils/steemutils.github.io" target="_BLANK"><b>contribute</b></a>
+			</div>
 
-		<a href="about.html" onclick="return false;">About</a>
+			<div id="bar2">
+				<a href="#" onclick="return false;"><b>bbcode_to_markdown</b></a>
+			</div>
+		</div>
 
-		<textarea id="input" oninput="convert()" rows="10" style="width: 100%;" placeholder="BBCode"></textarea>
-		
-		<textarea id="output" readonly="true" rows="10" style="width: 100%;" placeholder="Output"></textarea>
 
-		<br /><br /><br />
-		<p>BBCode this doesn't support yet:<br />-> Other types of list<br />-> Images<br />-> Links with text which isn't the URL</p>
-		<p>BBCode this cannot support:<br />-> Different text colours, sizes and allignments.<br />-> Underlining<br />-> Attatchments<br />-> Email links</p>
+		<div id="bbtomd">
+			<textarea id="input" oninput="convert()" rows="10" style="width: 100%;" placeholder="BBCode"></textarea>
+			
+			<textarea id="output" readonly="true" rows="10" style="width: 100%;" placeholder="Output"></textarea>
+
+			<br /><br /><br />
+			<p>BBCode this doesn't support yet:<br />-> Other types of list<br />-> Images<br />-> Links with text which isn't the URL</p>
+			<p>BBCode this cannot support:<br />-> Different text colours, sizes and allignments.<br />-> Underlining<br />-> Attatchments<br />-> Email links</p>
+		</div>
 
 	</body>
 
